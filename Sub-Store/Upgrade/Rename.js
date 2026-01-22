@@ -404,7 +404,8 @@ function operator(pro) {
     }
     // ⭐ 新增功能：如果有关键词，自动在最后加一个竖线分隔符
     if (retainKeyList.length > 0) {
-      retainKeyList.push("|");
+      retainKeyList.unshift("|"); // 在最前面插一根
+      retainKeyList.push("|");    // 在最后面插一根
     }
     // 将收集到的所有关键词(改名后的+未改名的)赋值给 retainKey
     let retainKey = retainKeyList;
