@@ -402,6 +402,10 @@ function operator(pro) {
         }
       });
     }
+    // ⭐ 新增功能：如果有关键词，自动在最后加一个竖线分隔符
+    if (retainKeyList.length > 0) {
+      retainKeyList.push("|");
+    }
     // 将收集到的所有关键词(改名后的+未改名的)赋值给 retainKey
     let retainKey = retainKeyList;
 
