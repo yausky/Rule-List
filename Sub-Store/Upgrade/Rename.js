@@ -337,8 +337,8 @@ function ObjKA(i) {
 function operator(pro) {
   const Allmap = {};
   const outList = getList(outputName);
-  let inputList,
-    retainKey = "";
+  let inputList;
+
   if (inname !== "") {
     inputList = [getList(inname)];
   } else {
@@ -351,6 +351,7 @@ function operator(pro) {
     });
   });
 
+  // 1. 预先过滤节点 (Clear/Nx等)
   if (clear || nx || blnx || key) {
     pro = pro.filter((res) => {
       const resname = res.name;
@@ -363,38 +364,17 @@ function operator(pro) {
     });
   }
 
-  const BLKEYS = BLKEY ? BLKEY.split("+") : "";
+  const BLKEYS = BLKEY ? BLKEY.split("+") : [];
 
   pro.forEach((e) => {
-    let bktf = false, ens = e.name
-    // 预处理 防止预判或遗漏
+    // 2. 基础清洗 (rurekey)
     Object.keys(rurekey).forEach((ikey) => {
       if (rurekey[ikey].test(e.name)) {
         e.name = e.name.replace(rurekey[ikey], ikey);
-      if (BLKEY) {
-        bktf = true
-        let BLKEY_REPLACE = "",
-        re = false;
-      BLKEYS.forEach((i) => {
-        if (i.includes(">") && ens.includes(i.split(">")[0])) {
-          if (rurekey[ikey].test(i.split(">")[0])) {
-              e.name += " " + i.split(">")[0]
-            }
-          if (i.split(">")[1]) {
-            BLKEY_REPLACE = i.split(">")[1];
-            re = true;
-          }
-        } else {
-          if (ens.includes(i)) {
-             e.name += " " + i
-            }
-        }
-        retainKey = re
-        ? BLKEY_REPLACE
-        : BLKEYS.filter((items) => e.name.includes(items));
-      });}
       }
     });
+
+    // BlockQuic 处理
     if (blockquic == "on") {
       e["block-quic"] = "on";
     } else if (blockquic == "off") {
@@ -403,26 +383,31 @@ function operator(pro) {
       delete e["block-quic"];
     }
 
-    // 自定义
-    if (!bktf && BLKEY) {
-      let BLKEY_REPLACE = "",
-        re = false;
-      BLKEYS.forEach((i) => {
-        if (i.includes(">") && e.name.includes(i.split(">")[0])) {
-          if (i.split(">")[1]) {
-            BLKEY_REPLACE = i.split(">")[1];
-            re = true;
+    // 3. 关键修复：blkey 关键词提取 (支持重命名 + 多词保留)
+    let retainKeyList = [];
+    if (BLKEY) {
+      BLKEYS.forEach((rule) => {
+        if (rule.includes(">")) {
+          // 模式：旧名>新名 (例如 ChatGpt>ChatGPT)
+          const [target, replacement] = rule.split(">");
+          // 只要原名里包含旧词，就把新词加入保留列表
+          if (e.name.includes(target)) {
+            retainKeyList.push(replacement);
+          }
+        } else {
+          // 模式：直接保留 (例如 Netflix)
+          if (e.name.includes(rule)) {
+            retainKeyList.push(rule);
           }
         }
       });
-      retainKey = re
-        ? BLKEY_REPLACE
-        : BLKEYS.filter((items) => e.name.includes(items));
     }
+    // 将收集到的所有关键词(改名后的+未改名的)赋值给 retainKey
+    let retainKey = retainKeyList;
 
-    let ikey = "",
-      ikeys = "";
-    // 保留固定格式 倍率
+
+    // 4. 倍率提取
+    let ikey = "", ikeys = "";
     if (blgd) {
       regexArray.forEach((regex, index) => {
         if (regex.test(e.name)) {
@@ -430,8 +415,6 @@ function operator(pro) {
         }
       });
     }
-
-    // 正则 匹配倍率
     if (bl) {
       const match = e.name.match(
         /((倍率|X|x|×)\D?((\d{1,3}\.)?\d+)\D?)|((\d{1,3}\.)?\d+)(倍|X|x|×)/
@@ -439,30 +422,25 @@ function operator(pro) {
       if (match) {
         const rev = match[0].match(/(\d[\d.]*)/)[0];
         if (rev !== "1") {
-          const newValue = rev + "×";
-          ikey = newValue;
+          ikey = rev + "×";
         }
       }
     }
 
+    // 5. 地区匹配与最终命名拼接
     !GetK && ObjKA(Allmap)
-    // 匹配 Allkey 地区
-    const findKey = AMK.find(([key]) =>
-      e.name.includes(key)
-    )
+    const findKey = AMK.find(([key]) => e.name.includes(key));
     
-    let firstName = "",
-      nNames = "";
-
+    let firstName = "", nNames = "";
     if (nf) {
       firstName = FNAME;
     } else {
       nNames = FNAME;
     }
+
     if (findKey?.[1]) {
       const findKeyValue = findKey[1];
-      let keyover = [],
-        usflag = "";
+      let usflag = "";
       if (addflag) {
         const index = outList.indexOf(findKeyValue);
         if (index !== -1) {
@@ -470,7 +448,9 @@ function operator(pro) {
           usflag = usflag === "🇹🇼" ? "🇨🇳" : usflag;
         }
       }
-      keyover = keyover
+      
+      // 拼接顺序：前缀 + 国旗 + 名字前缀 + 地区名 + 【关键词列表】 + 倍率
+      let keyover = []
         .concat(firstName, usflag, nNames, findKeyValue, retainKey, ikey, ikeys)
         .filter((k) => k !== "");
       e.name = keyover.join(FGF);
@@ -482,8 +462,9 @@ function operator(pro) {
       }
     }
   });
+
   pro = pro.filter((e) => e.name !== null);
-  pro = jxh(pro); // 优化点：这里赋值给 pro，确保变更生效
+  pro = jxh(pro);
   numone && oneP(pro);
   blpx && (pro = fampx(pro));
   key && (pro = pro.filter((e) => !keyb.test(e.name)));
