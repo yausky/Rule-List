@@ -261,7 +261,9 @@ const REGIONS = [
   { flag: '🇫🇴', en: 'FO', zh: '法罗群岛', quan: 'Faroe Islands' },
   { flag: '🇦🇽', en: 'AX', zh: '奥兰群岛', quan: 'Ahvenanmaa' },
   { flag: '🇧🇲', en: 'BM', zh: '百慕达', quan: 'Bermuda' },
-  { flag: '🇹🇱', en: 'TL', zh: '东帝汶', quan: 'Timor-Leste' }
+  { flag: '🇹🇱', en: 'TL', zh: '东帝汶', quan: 'Timor-Leste' },
+  { flag: '🇦🇬', en: 'AG', zh: '安提瓜和巴布达', quan: 'Antigua and Barbuda' },
+  { flag: '🇸🇧', en: 'SB', zh: '所罗门群岛', quan: 'Solomon Islands' }
 ];
 
 // 👇👇👇 关键修复：从 REGIONS 映射回旧变量，防止 operator 报错 👇👇👇
