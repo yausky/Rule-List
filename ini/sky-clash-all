@@ -3,9 +3,9 @@
 ruleset=Test,https://gh-proxy.com/raw.githubusercontent.com/yausky/Rule-List/refs/heads/main/List/Check.list
 ;ruleset=Block,https://gh-proxy.com/raw.githubusercontent.com/yausky/Rule-List/refs/heads/main/List/Block.list
 ruleset=ChatGPT,https://gh-proxy.com/raw.githubusercontent.com/yausky/Rule-List/refs/heads/main/List/ChatGPT.list
+ruleset=Gemini,https://gh-proxy.com/raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Gemini/Gemini.list
 ruleset=Claude,https://gh-proxy.com/raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Claude/Claude.list
 ;ruleset=Copilot,https://gh-proxy.com/raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Copilot/Copilot.list
-;ruleset=Gemini,https://gh-proxy.com/raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Gemini/Gemini.list
 ruleset=AI,https://gh-proxy.com/raw.githubusercontent.com/yausky/Rule-List/refs/heads/main/List/AI1.list
 ruleset=Meta AI,https://gh-proxy.com/raw.githubusercontent.com/yausky/Rule-List/refs/heads/main/List/AI2.list
 ruleset=Perplexity,https://gh-proxy.com/raw.githubusercontent.com/yausky/Rule-List/refs/heads/main/List/Perplexity.list
