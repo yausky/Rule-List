@@ -32,10 +32,8 @@ payload:
   - DOMAIN-SUFFIX,ip125.com
   - DOMAIN-SUFFIX,skk.moe
   - DOMAIN-SUFFIX,ip111.cn
-  - DOMAIN-SUFFIX,vultr.com
-  - DOMAIN-SUFFIX,incolumitas.com
-  - DOMAIN-SUFFIX,incolumitas.com
-  - DOMAIN-SUFFIX,incolumitas.com
+  - DOMAIN-SUFFIX,ping0.cc
   - DOMAIN-SUFFIX,scamalytics.com
   - DOMAIN-SUFFIX,ifconfig.co
   - DOMAIN-SUFFIX,ipinfo.io
+  - IP-CIDR,142.251.215.0/24,no-resolve
