@@ -2,6 +2,7 @@ payload:
   - DOMAIN-SUFFIX,vultr.com
   - DOMAIN-SUFFIX,test-ipv6.com
   - DOMAIN-SUFFIX,ipw.cn
+  - DOMAIN-SUFFIX,ippure.com
   - DOMAIN-SUFFIX,ipcheck.im
   - DOMAIN-SUFFIX,dnscheck.tools
   - DOMAIN-SUFFIX,whoer.net
